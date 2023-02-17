@@ -59,8 +59,7 @@ defmodule FoodOrder.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.11", only: [:dev, :test]},
-      {:excoveralls, "~> 0.10", only: :test},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 
