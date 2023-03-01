@@ -17,6 +17,8 @@ defmodule FoodOrderWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: FoodOrderWeb
@@ -24,6 +26,8 @@ defmodule FoodOrderWeb do
       import Plug.Conn
       import FoodOrderWeb.Gettext
       alias FoodOrderWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -45,7 +49,7 @@ defmodule FoodOrderWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {FoodOrderWeb.LayoutView, "live.html"}
+        layout: {FoodOrderWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
@@ -90,7 +94,7 @@ defmodule FoodOrderWeb do
       use Phoenix.HTML
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-      import Phoenix.LiveView.Helpers
+      import Phoenix.Component
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
@@ -98,6 +102,8 @@ defmodule FoodOrderWeb do
       import FoodOrderWeb.ErrorHelpers
       import FoodOrderWeb.Gettext
       alias FoodOrderWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -106,5 +112,14 @@ defmodule FoodOrderWeb do
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: FoodOrderWeb.Endpoint,
+        router: FoodOrderWeb.Router,
+        statics: FoodOrderWeb.static_paths()
+    end
   end
 end
