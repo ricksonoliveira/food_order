@@ -21,11 +21,12 @@ defmodule FoodOrderWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: FoodOrderWeb
+      use Phoenix.Controller,
+        formats: [:html, :json],
+        layouts: [html: FoodOrderWeb.Layouts]
 
       import Plug.Conn
       import FoodOrderWeb.Gettext
-      alias FoodOrderWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())
     end
@@ -49,7 +50,7 @@ defmodule FoodOrderWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {FoodOrderWeb.LayoutView, :live}
+        layout: {FoodOrderWeb.Layouts, :app}
 
       unquote(view_helpers())
     end
@@ -73,7 +74,7 @@ defmodule FoodOrderWeb do
 
   def router do
     quote do
-      use Phoenix.Router
+      use Phoenix.Router, helpers: false
 
       import Plug.Conn
       import Phoenix.Controller
@@ -84,7 +85,6 @@ defmodule FoodOrderWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import FoodOrderWeb.Gettext
     end
   end
 
@@ -112,6 +112,35 @@ defmodule FoodOrderWeb do
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
+  end
+
+  def html do
+    quote do
+      use Phoenix.Component
+
+      # Import convenience functions from controllers
+      import Phoenix.Controller,
+        only: [get_csrf_token: 0, view_module: 1, view_template: 1]
+
+      # Include general helpers for rendering HTML
+      unquote(html_helpers())
+    end
+  end
+
+  defp html_helpers do
+    quote do
+      # HTML escaping functionality
+      import Phoenix.HTML
+      # Core UI components and translation
+      import FoodOrderWeb.CoreComponents
+      import FoodOrderWeb.Gettext
+
+      # Shortcut for generating JS commands
+      alias Phoenix.LiveView.JS
+
+      # Routes generation with the ~p sigil
+      unquote(verified_routes())
+    end
   end
 
   def verified_routes do
