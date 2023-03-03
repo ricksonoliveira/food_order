@@ -14,6 +14,8 @@ defmodule FoodOrder.Application do
       FoodOrderWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: FoodOrder.PubSub},
+      # Start Finch
+      {Finch, name: FoodOrder.Finch},
       # Start the Endpoint (http/https)
       FoodOrderWeb.Endpoint
       # Start a worker by calling: FoodOrder.Worker.start_link(arg)
