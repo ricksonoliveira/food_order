@@ -1,4 +1,4 @@
-defmodule FoodOrderWeb.Client do
+defmodule FoodOrderWeb.Main.ClientLive do
   use FoodOrderWeb, :live_component
 
   def update(%{name: name}, socket) do
