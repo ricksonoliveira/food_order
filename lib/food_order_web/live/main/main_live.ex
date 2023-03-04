@@ -4,7 +4,7 @@ defmodule FoodOrderWeb.MainLive do
   alias FoodOrderWeb.Main.ClientLive
 
   def mount(_assigns, _session, socket) do
-    {:ok, assign(socket, clients: Client.all)}
+    {:ok, assign(socket, clients: Client.all())}
   end
 
   def handle_info({:change_name, id, name}, socket) do

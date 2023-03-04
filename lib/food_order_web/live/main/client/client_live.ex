@@ -2,7 +2,7 @@ defmodule FoodOrderWeb.Main.ClientLive do
   use FoodOrderWeb, :live_component
 
   def update(%{name: name}, socket) do
-    {:ok, update(socket, :client, &(Map.put(&1, :name, name)))}
+    {:ok, update(socket, :client, &Map.put(&1, :name, name))}
   end
 
   def update(assigns, socket) do
@@ -10,6 +10,6 @@ defmodule FoodOrderWeb.Main.ClientLive do
   end
 
   def handle_event("add", _, socket) do
-    {:noreply, update(socket, :client, &(Map.put(&1, :value, &1.value + 1)))}
+    {:noreply, update(socket, :client, &Map.put(&1, :value, &1.value + 1))}
   end
 end
