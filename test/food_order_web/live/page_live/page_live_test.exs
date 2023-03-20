@@ -1,11 +1,14 @@
 defmodule FoodOrderWeb.PageLiveTest do
   use FoodOrderWeb.ConnCase, async: true
+
   import Phoenix.LiveViewTest
+  import FoodOrder.ProductsFixtures
 
   setup %{conn: conn} do
+    product = product_fixture()
     {:ok, view, _html} = live(conn, ~p"/")
 
-    {:ok, %{conn: conn, view: view}}
+    {:ok, %{conn: conn, view: view, product: product}}
   end
 
   test "load main hero html", %{view: view} do
@@ -25,12 +28,12 @@ defmodule FoodOrderWeb.PageLiveTest do
     assert has_element?(view, "[data-role=products-list]")
   end
 
-  test "load main item elements", %{view: view} do
-    assert has_element?(view, "[data-role=item][data-id=1]")
-    assert has_element?(view, "[data-role=item][data-id=1]>img")
-    assert has_element?(view, "[data-role=item-details][data-id=1]>h2", "Product Name")
-    assert has_element?(view, "[data-role=item-details][data-id=1]>span", "small")
-    assert has_element?(view, "[data-role=item-details][data-id=1]>div>span", "$10")
-    assert view |> element("[data-role=item-details][data-id=1]>div>button") |> render()  =~ "Add"
+  test "load main item elements", %{view: view, product: product} do
+    assert has_element?(view, "[data-role=item][data-id=#{product.id}]")
+    assert has_element?(view, "[data-role=item][data-id=#{product.id}]>img")
+    assert has_element?(view, "[data-role=item-details][data-id=#{product.id}]>h2", product.name)
+    assert has_element?(view, "[data-role=item-details][data-id=#{product.id}]>span", Atom.to_string(product.size))
+    assert has_element?(view, "[data-role=item-details][data-id=#{product.id}]>div>span", Money.to_string(product.price))
+    assert view |> element("[data-role=item-details][data-id=#{product.id}]>div>button") |> render()  =~ "Add"
   end
 end
