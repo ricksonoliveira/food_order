@@ -52,7 +52,7 @@ defmodule FoodOrderWeb do
       use Phoenix.LiveView,
         layout: {FoodOrderWeb.Layouts, :app}
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -60,7 +60,7 @@ defmodule FoodOrderWeb do
     quote do
       use Phoenix.LiveComponent
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
