@@ -1,0 +1,7 @@
+ <section class="py-16" data-role="cart">
+   <%= if @total_quantity == 0 do %>
+      <.empty_cart />
+    <% else %>
+      <.live_component module={Details} id="cart-details" />
+    <% end %>
+</section>
