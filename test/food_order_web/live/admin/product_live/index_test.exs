@@ -6,10 +6,16 @@ defmodule FoodOrderWeb.Admin.ProductLive.IndexTest do
   describe "index" do
     setup [:create_product]
 
-    test "List all products", %{conn: conn, product: _product} do
+    test "List products", %{conn: conn, product: product} do
       {:ok, view, _html} = live(conn, ~p"/admin/products")
 
       assert has_element?(view, "header>div>h1", "List Products")
+
+      product_id_el = "#products-#{product.id}"
+      assert has_element?(view, product_id_el)
+      assert has_element?(view, product_id_el <> ">td>div>span", Money.to_string(product.price))
+      assert has_element?(view, product_id_el <> ">td>div>span", product.name)
+      assert has_element?(view, product_id_el <> ">td>div>span", Atom.to_string(product.size))
     end
   end
 
