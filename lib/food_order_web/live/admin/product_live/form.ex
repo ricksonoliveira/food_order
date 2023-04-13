@@ -18,8 +18,8 @@ defmodule FoodOrderWeb.Admin.ProductLive.Form do
         phx-target={@myself}
       >
         <.input field={{f, :name}} label="Name" />
-        <%!-- <.input field={{f, :description}} type="textarea"  label="Description" />
-        <.input field={{f, :price}} type="number" label="Price" /> --%>
+        <.input field={{f, :description}} type="textarea" label="Description" />
+        <.input field={{f, :price}} type="number" label="Price" />
 
         <:actions>
           <.button phx-disable-with="Saving...">Create Product</.button>
@@ -29,8 +29,9 @@ defmodule FoodOrderWeb.Admin.ProductLive.Form do
     """
   end
 
-  def handle_event("validate", %{"product" => product_params}, socket) do
-    changeset = socket.assigns.product
+  def handle_event("validate", %{"product" => product_params}, %{assigns: %{product: product}} = socket) do
+    changeset =
+      product
       |> Products.change_product(product_params)
       |> Map.put(:action, :validate)
 

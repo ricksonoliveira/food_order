@@ -30,7 +30,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.IndexTest do
       # open_browser(view)
       assert view
               |> form("#product-form", product: %{})
-              |> render_change() =~ " can't be blank"
+              |> render_change() =~ "be blank"
     end
   end
 
