@@ -1,0 +1,15 @@
+<.header>
+    Product <%= @product.id %>
+</.header>
+
+<.list>
+    <:item title="image">
+        <img src={~p"/images/products/#{@product.image_url}"} alt="" class="h-40 mb-4 mx-auto">
+    </:item>
+    <:item title="Name"><%= @product.name %></:item>
+    <:item title="Description"><%= @product.description %></:item>
+    <:item title="price"><%= @product.price %></:item>
+    <:item title="size"><%= @product.size %></:item>
+</.list>
+
+<.back navigate={~p"/admin/products"}>Back to products</.back>
