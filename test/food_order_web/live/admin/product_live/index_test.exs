@@ -17,6 +17,33 @@ defmodule FoodOrderWeb.Admin.ProductLive.IndexTest do
       assert has_element?(view, product_id_el <> ">td>div>span", product.name)
       assert has_element?(view, product_id_el <> ">td>div>span", Atom.to_string(product.size))
     end
+
+    test "add new product", %{conn: conn} do
+      {:ok, view, _html} = live(conn, ~p"/admin/products")
+
+      assert view |> element("header>div>a", "New Product") |> render_click()
+
+      assert_patch(view, ~p"/admin/products/new")
+
+      assert view |> has_element?("#new-product-modal")
+
+      assert view
+      |> form("#product-form", product: %{})
+      |> render_change() =~ "be blank"
+
+      {:ok, _view, html} =
+        view |> form("#product-form", product: %{
+          name: "Product 1",
+          description: "some description",
+          price: "10"
+        })
+        |> render_submit()
+        |> follow_redirect(conn, ~p"/admin/products")
+
+      assert html =~ "Product created successfully!"
+      assert html =~ "Product 1"
+      # open_browser(view)
+    end
   end
 
   defp create_product(_conn) do
