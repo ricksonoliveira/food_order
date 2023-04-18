@@ -36,7 +36,13 @@ defmodule FoodOrder.ProductsTest do
 
     test "update_product/2 with valid data updates the product" do
       product = product_fixture()
-      update_attrs = %{description: "some updated description", name: "some updated name", price: 43, size: :SMALL}
+
+      update_attrs = %{
+        description: "some updated description",
+        name: "some updated name",
+        price: 43,
+        size: :SMALL
+      }
 
       assert {:ok, %Product{} = product} = Products.update_product(product, update_attrs)
       assert product.description == "some updated description"

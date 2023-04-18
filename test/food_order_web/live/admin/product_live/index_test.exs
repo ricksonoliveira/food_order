@@ -28,21 +28,38 @@ defmodule FoodOrderWeb.Admin.ProductLive.IndexTest do
       assert view |> has_element?("#new-product-modal")
 
       assert view
-      |> form("#product-form", product: %{})
-      |> render_change() =~ "be blank"
+             |> form("#product-form", product: %{})
+             |> render_change() =~ "be blank"
 
       {:ok, _view, html} =
-        view |> form("#product-form", product: %{
-          name: "Product 1",
-          description: "some description",
-          price: "10"
-        })
+        view
+        |> form("#product-form",
+          product: %{
+            name: "Product 1",
+            description: "some description",
+            price: "10"
+          }
+        )
         |> render_submit()
         |> follow_redirect(conn, ~p"/admin/products")
 
       assert html =~ "Product created successfully!"
       assert html =~ "Product 1"
       # open_browser(view)
+    end
+
+    test "Delete product", %{conn: conn, product: product} do
+      {:ok, view, _html} = live(conn, ~p"/admin/products")
+
+      assert has_element?(view, "header>div>h1", "List Products")
+
+      product_id_el = "#products-#{product.id}"
+
+      view
+      |> element(product_id_el <> ">td>div>span>div>a", "Delete")
+      |> render_click()
+
+      refute has_element?(view, product_id_el)
     end
   end
 
