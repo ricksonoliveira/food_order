@@ -10,7 +10,6 @@ defmodule FoodOrderWeb.CartLiveTest do
 
   test "Load main elements when cart is empty", %{view: view} do
     assert has_element?(view, "[data-role=cart]")
-    open_browser(view)
     assert has_element?(view, "[data-role=cart]>div>h1", "Nothing here yet...")
 
     assert has_element?(
