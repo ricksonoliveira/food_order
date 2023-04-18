@@ -12,7 +12,13 @@ defmodule FoodOrderWeb.CartLiveTest do
     assert has_element?(view, "[data-role=cart]")
     open_browser(view)
     assert has_element?(view, "[data-role=cart]>div>h1", "Nothing here yet...")
-    assert has_element?(view, "[data-role=cart]>div>p", "You're probably hungry, right? Order something from our menu!")
+
+    assert has_element?(
+             view,
+             "[data-role=cart]>div>p",
+             "You're probably hungry, right? Order something from our menu!"
+           )
+
     assert has_element?(view, "[data-role=cart]>div>a", "Go back")
   end
 

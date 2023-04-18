@@ -29,7 +29,11 @@ defmodule FoodOrderWeb.Admin.ProductLive.Form do
     {:ok, socket |> assign(assigns) |> assign_form(changeset)}
   end
 
-  def handle_event("validate", %{"product" => product_params}, %{assigns: %{product: product}} = socket) do
+  def handle_event(
+        "validate",
+        %{"product" => product_params},
+        %{assigns: %{product: product}} = socket
+      ) do
     changeset =
       product
       |> Products.change_product(product_params)

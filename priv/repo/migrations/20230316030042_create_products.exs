@@ -5,6 +5,7 @@ defmodule FoodOrder.Repo.Migrations.CreateProducts do
     create_query = "CREATE TYPE sizes as ENUM('SMALL', 'MEDIUM', 'LARGE')"
     drop_query = "DROP TYPE sizes"
     execute(create_query, drop_query)
+
     create table(:products, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string
