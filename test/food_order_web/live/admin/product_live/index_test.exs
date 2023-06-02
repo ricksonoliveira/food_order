@@ -1,4 +1,4 @@
-defmodule FoodOrderWeb.Admin.ProductLive.IndexTest do
+defmodule FoodOrderWeb.Admin.PageLive.IndexTest do
   use FoodOrderWeb.ConnCase
   import Phoenix.LiveViewTest
   import FoodOrder.ProductsFixtures
@@ -45,7 +45,60 @@ defmodule FoodOrderWeb.Admin.ProductLive.IndexTest do
 
       assert html =~ "Product created successfully!"
       assert html =~ "Product 1"
-      # open_browser(view)
+    end
+
+    test "updates product from listing", %{conn: conn, product: product} do
+      {:ok, view, _html} = live(conn, ~p"/admin/products")
+
+      assert view
+             |> element("#products-#{product.id}>td>div>span>div>a", "Edit")
+             |> render_click()
+
+      assert_patch(view, ~p"/admin/products/#{product.id}/edit")
+
+      {:ok, _view, html} =
+        view
+        |> form("#product-form",
+          product: %{
+            name: "Product 1 updated",
+            description: "some description",
+            price: "10"
+          }
+        )
+        |> render_submit()
+        |> follow_redirect(conn, ~p"/admin/products")
+
+      assert html =~ "Product updated successfully!"
+      assert html =~ "Product 1 updated"
+    end
+
+    test "updates product within modal", %{conn: conn, product: product} do
+      {:ok, view, _html} = live(conn, ~p"/admin/products/#{product}")
+
+      assert view
+             |> element("a", "Edit")
+             |> render_click() =~ "Edit"
+
+      assert_patch(view, ~p"/admin/products/#{product}/show/edit")
+
+      assert view
+             |> form("#product-form", product: %{description: nil})
+             |> render_submit() =~ "be blank"
+
+      {:ok, _view, html} =
+        view
+        |> form("#product-form",
+          product: %{
+            name: "Product 1 updated",
+            description: "some description updated",
+            price: "10"
+          }
+        )
+        |> render_submit()
+        |> follow_redirect(conn, ~p"/admin/products/#{product}")
+
+      assert html =~ "Product updated successfully!"
+      assert html =~ "some description updated"
     end
 
     test "Delete product", %{conn: conn, product: product} do
