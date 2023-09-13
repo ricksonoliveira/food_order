@@ -1,5 +1,5 @@
 defmodule FoodOrderWeb.CartLiveTest do
-  use FoodOrderWeb.ConnCase
+  use FoodOrderWeb.ConnCase, async: true
   import Phoenix.LiveViewTest
 
   setup %{conn: conn} do
@@ -15,7 +15,13 @@ defmodule FoodOrderWeb.CartLiveTest do
     assert has_element?(
              view,
              "[data-role=cart]>div>p",
-             "You're probably hungry, right? Order something from our menu!"
+             "You're probably hungry, right?"
+           )
+
+    assert has_element?(
+             view,
+             "[data-role=cart]>div>p",
+             "Order something from our menu!"
            )
 
     assert has_element?(view, "[data-role=cart]>div>a", "Go back")
