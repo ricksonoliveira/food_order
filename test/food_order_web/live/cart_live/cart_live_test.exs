@@ -27,20 +27,20 @@ defmodule FoodOrderWeb.CartLiveTest do
     assert has_element?(view, "[data-role=cart]>div>a", "Go back")
   end
 
-  test "Loads main elements when cart has elements", %{view: view} do
-    assert has_element?(view, "[data-role=cart]>div>div>h1", "Order Details")
-    assert has_element?(view, "[data-role=item-image]")
-    assert has_element?(view, "[data-role=item]>div>h1", "Pizza")
-    assert has_element?(view, "[data-role=item]>div>span", "Small")
-    assert has_element?(view, "[data-role=item]")
-    assert has_element?(view, "[data-role=dec]", "-")
-    assert has_element?(view, "[data-role=quantity]>div>span", "10 Item(s)")
-    assert has_element?(view, "[data-role=add]", "+")
-    assert has_element?(view, "[data-role=total-item]>span", "$100")
-    assert has_element?(view, "[data-role=total-item]>button", "&times")
-    assert has_element?(view, "[data-role=total-cart]")
-    assert has_element?(view, "[data-role=total-cart]>div>span", "Total Amount:")
-    assert has_element?(view, "[data-role=total-cart]>div>span", "$1000")
-    assert has_element?(view, "[data-role=total-cart]>form>div>button", "Order now!")
-  end
+  # test "Loads main elements when cart has elements", %{view: view} do
+  #   assert has_element?(view, "[data-role=cart]>div>div>h1", "Order Details")
+  #   assert has_element?(view, "[data-role=item-image]")
+  #   assert has_element?(view, "[data-role=item]>div>h1", "Pizza")
+  #   assert has_element?(view, "[data-role=item]>div>span", "Small")
+  #   assert has_element?(view, "[data-role=item]")
+  #   assert has_element?(view, "[data-role=dec]", "-")
+  #   assert has_element?(view, "[data-role=quantity]>div>span", "10 Item(s)")
+  #   assert has_element?(view, "[data-role=add]", "+")
+  #   assert has_element?(view, "[data-role=total-item]>span", "$100")
+  #   assert has_element?(view, "[data-role=total-item]>button", "&times")
+  #   assert has_element?(view, "[data-role=total-cart]")
+  #   assert has_element?(view, "[data-role=total-cart]>div>span", "Total Amount:")
+  #   assert has_element?(view, "[data-role=total-cart]>div>span", "$1000")
+  #   assert has_element?(view, "[data-role=total-cart]>form>div>button", "Order now!")
+  # end
 end

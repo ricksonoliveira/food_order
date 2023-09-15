@@ -3,7 +3,7 @@ defmodule FoodOrderWeb.CartLive do
   alias FoodOrderWeb.CartLive.Details
 
   def mount(_, _, socket) do
-    {:ok, assign(socket, total_quantity: Enum.random([0, 1]))}
+    {:ok, assign(socket, total_quantity: 0)}
   end
 
   defp empty_cart(assigns) do
