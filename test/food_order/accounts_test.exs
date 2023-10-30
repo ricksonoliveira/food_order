@@ -61,7 +61,7 @@ defmodule FoodOrder.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "New@Val1d"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -264,7 +264,7 @@ defmodule FoodOrder.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.update_user_password(user, valid_user_password(), %{
-          password: "not valid",
+          password: "New@Val1d",
           password_confirmation: "another"
         })
 
@@ -473,7 +473,7 @@ defmodule FoodOrder.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.reset_user_password(user, %{
-          password: "not valid",
+          password: "New@Val1d",
           password_confirmation: "another"
         })
 
