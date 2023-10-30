@@ -1,4 +1,4 @@
-alias FoodOrder.Products
+alias FoodOrder.{Accounts, Products}
 
 for _ <- 0..50,
     do:
@@ -10,3 +10,15 @@ for _ <- 0..50,
         size: Enum.random([:SMALL, :MEDIUM, :LARGE]),
         image_url: "p-#{1..4 |> Enum.random()}.jpeg"
       })
+
+Accounts.register_user(%{
+  email: "admin@elxpro.com",
+  password: "Admin@elxpro123",
+  role: "ADMIN"
+})
+
+Accounts.register_user(%{
+  email: "user@elxpro.com",
+  password: "User@elxpro123",
+  role: "USER"
+})
