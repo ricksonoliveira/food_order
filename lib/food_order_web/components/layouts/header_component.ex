@@ -9,20 +9,24 @@ defmodule FoodOrderWeb.HeaderComponent do
         </a>
         <ul class="flex items-center">
         <%= if @current_user do %>
-          <li class="ml-6">
-            <.link
-                href={~p"/admin/products"}
-                class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-              >
-                Admin Products
-              </.link>
-          </li>
-          <li class="ml-6">
-            Admin Orders
-          </li>
-          <li class="ml-6">
-            My Orders
-          </li>
+
+          <%= if @current_user.role == :ADMIN do %>
+            <li class="ml-6">
+              <.link
+                  href={~p"/admin/products"}
+                  class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                >
+                  Admin Products
+                </.link>
+            </li>
+            <li class="ml-6 text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700">
+              Admin Orders
+            </li>
+          <% else %>
+            <li class="ml-6 text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700">
+              My Orders
+            </li>
+          <% end %>
           <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
             <li>
               <.link
@@ -33,11 +37,11 @@ defmodule FoodOrderWeb.HeaderComponent do
               </.link>
             </li>
             <li>
-            <span class="text-fuchsia-500"><%= @current_user.email %></span>
+            <span class="ml-3 text-fuchsia-500 text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"><%= @current_user.email %></span>
               <.link
                 href={~p"/users/log_out"}
                 method="delete"
-                class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                class="ml-6 text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
               >
                 Log out
               </.link>

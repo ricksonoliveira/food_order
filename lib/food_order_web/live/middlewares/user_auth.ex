@@ -3,6 +3,7 @@ defmodule FoodOrderWeb.UserAuth do
 
   import Plug.Conn
   import Phoenix.Controller
+  import FoodOrderWeb.MountUser
 
   alias FoodOrder.Accounts
 
@@ -170,14 +171,6 @@ defmodule FoodOrderWeb.UserAuth do
     else
       {:cont, socket}
     end
-  end
-
-  defp mount_current_user(session, socket) do
-    Phoenix.Component.assign_new(socket, :current_user, fn ->
-      if user_token = session["user_token"] do
-        Accounts.get_user_by_session_token(user_token)
-      end
-    end)
   end
 
   @doc """
