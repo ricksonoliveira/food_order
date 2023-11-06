@@ -9,16 +9,25 @@ defmodule FoodOrder.Products do
   alias FoodOrder.Products.Product
 
   @doc """
-  Returns the list of products.
+  Returns the list of products filtered by the given `params`,
+  or all products if no `params` are given.
 
   ## Examples
 
-      iex> list_products()
+      iex> list_products(name: "foo")
       [%Product{}, ...]
 
   """
-  def list_products do
-    Repo.all(Product)
+  def list_products(params \\ []) do
+    query = from(p in Product)
+
+    params
+    |> Enum.reduce(query, fn
+      {:name, name}, query ->
+        name = "%#{name}%"
+        where(query, [q], ilike(q.name, ^name))
+    end)
+    |> Repo.all()
   end
 
   @doc """

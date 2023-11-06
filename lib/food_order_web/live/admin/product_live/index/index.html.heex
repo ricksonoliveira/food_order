@@ -1,7 +1,10 @@
 <.header >
   List Products
   <:actions>
-    <.link patch={~p"/admin/products/new"}>New Product</.link>
+    <div class="flex items-center justify-between">
+      <.search_by_product name={@name} />
+      <.link patch={~p"/admin/products/new"} class="text-[0.8125rem] text-zinc-900 font-semibold hover:text-zinc-700">New Product</.link>
+    </div>
   </:actions>
 </.header>
 
@@ -27,7 +30,7 @@
       <.link phx-click={JS.push("delete", value: %{id: product.id})} data-confirm="Are you sure?">Delete</.link>
     </div>
   </:action>
-</.table>`
+</.table>
 
 <.modal 
   :if={@live_action in [:new, :edit]} 
