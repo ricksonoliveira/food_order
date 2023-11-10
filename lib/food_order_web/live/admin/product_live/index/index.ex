@@ -7,12 +7,12 @@ defmodule FoodOrderWeb.Admin.ProductLive.Index do
     live_action = socket.assigns.live_action
     name = params["name"] || ""
     products = Products.list_products(name: name)
+    assigns = [name: name, products: products, loading: false]
 
     socket =
       socket
       |> apply_action(live_action, params)
-      |> assign(:name, name)
-      |> assign(:products, products)
+      |> assign(assigns)
 
     {:noreply, socket}
   end
@@ -26,7 +26,13 @@ defmodule FoodOrderWeb.Admin.ProductLive.Index do
 
   def handle_event("filter_by_product", %{"name" => name}, socket) do
     products = Products.list_products(name: name)
+    socket = apply_filters(socket, name)
     {:noreply, socket |> assign(:products, products) |> assign(:name, name)}
+  end
+
+  def handle_info({:list_product, name}, socket) do
+    params = [name: name]
+    {:noreply, perform_filter(socket, params)}
   end
 
   defp apply_action(socket, :new, _params) do
@@ -40,6 +46,31 @@ defmodule FoodOrderWeb.Admin.ProductLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket |> assign(:page_title, "List Products")
+  end
+
+  defp apply_filters(socket, name) do
+    assings = [products: [], name: name, loading: true]
+    send(self(), {:list_product, name})
+    assign(socket, assings)
+  end
+
+  defp perform_filter(socket, params) do
+    params
+    |> Products.list_products()
+    |> return_response(socket, params)
+  end
+
+  defp return_response([], socket, params) do
+    assigns = [loading: false, products: [], name: params[:name]]
+
+    socket
+    |> put_flash(:error, "No products found for #{params[:name]}")
+    |> assign(assigns)
+  end
+
+  defp return_response(products, socket, _params) do
+    assigns = [loading: false, products: products]
+    socket |> assign(assigns)
   end
 
   defp search_by_product(assigns) do

@@ -50,7 +50,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.SearchByProductTest do
       refute has_element?(lv, product_2_id_el)
     end
 
-    test "searche for blank product name", %{conn: conn} do
+    test "searches for blank product name", %{conn: conn} do
       {product_1, product_2} = create_products()
 
       # Visit the admin products page

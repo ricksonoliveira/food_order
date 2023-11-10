@@ -10,9 +10,16 @@ defmodule FoodOrder.ProductsTest do
 
     @invalid_attrs %{description: nil, name: nil, price: nil, size: nil}
 
-    test "list_products/0 returns all products" do
+    test "list_products/1 returns all products" do
       product = product_fixture()
       assert Products.list_products() == [product]
+    end
+
+    test "list_products/1 with params return product filterd" do
+      product = product_fixture()
+      product2 = product_fixture(%{name: "some other name"})
+      assert Products.list_products(name: "some other name") == [product2]
+      refute Products.list_products(name: "some other name") == [product]
     end
 
     test "get_product!/1 returns the product with given id" do
