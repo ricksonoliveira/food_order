@@ -12,13 +12,13 @@ for _ <- 0..50,
       })
 
 Accounts.register_user(%{
-  email: "admin@elxpro.com",
-  password: "Admin@elxpro123",
+  email: "admin@food.com",
+  password: "Admin@food123",
   role: "ADMIN"
 })
 
 Accounts.register_user(%{
-  email: "user@elxpro.com",
-  password: "User@elxpro123",
+  email: "user@food.com",
+  password: "User@food123",
   role: "USER"
 })
