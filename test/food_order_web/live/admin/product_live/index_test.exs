@@ -1,5 +1,5 @@
 defmodule FoodOrderWeb.Admin.PageLive.IndexTest do
-  use FoodOrderWeb.ConnCase
+  use FoodOrderWeb.ConnCase, async: true
   import Phoenix.LiveViewTest
   import FoodOrder.ProductsFixtures
 

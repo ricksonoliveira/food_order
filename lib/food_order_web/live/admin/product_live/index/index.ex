@@ -20,7 +20,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.Index do
   def handle_event("delete", %{"id" => id}, socket) do
     products = socket.assigns.products
     products |> Enum.find(&(&1.id == id)) |> Products.delete_product()
-    delete_product = fn products -> Enum.filter(products, &(&1.id != id)) end
+    delete_product = fn products, id -> Enum.filter(products, &(&1.id != id)) end
     {:noreply, update(socket, :products, &delete_product.(&1, id))}
   end
 
