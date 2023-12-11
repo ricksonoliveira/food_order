@@ -471,6 +471,8 @@ defmodule FoodOrderWeb.CoreComponents do
 
   slot :col, required: true do
     attr :label, :string
+    attr :link, :any
+    attr :options, :map
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
@@ -486,7 +488,24 @@ defmodule FoodOrderWeb.CoreComponents do
       <table class="mt-11 w-[40rem] sm:w-full">
         <thead class="text-left text-[0.8125rem] leading-6 text-zinc-500">
           <tr>
-            <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>
+            <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal">
+              <%= if col[:link] do %>
+                <.link patch={create_sort_link(col[:link], col[:options], col[:label])} >
+                  <div class="flex items-center">
+                    <span class="pr-2">
+                      <%= col[:label] %>
+                    </span>
+                    <%= if col[:options][:sort_order] == :asc do %>
+                      <Heroicons.bars_arrow_up solid class={[is_active(col), "h-5 w-5 stroke-current"]} />
+                    <% else %>
+                      <Heroicons.bars_arrow_down solid class="text-gray-500 h-5 w-5 stroke-current" />
+                    <% end %>
+                  </div>
+                </.link>
+              <% else %>
+                <%= col[:label] %>
+              <% end %>
+            </th>
             <th class="relative p-0 pb-4"><span class="sr-only"><%= gettext("Actions") %></span></th>
           </tr>
         </thead>
@@ -527,6 +546,29 @@ defmodule FoodOrderWeb.CoreComponents do
       </table>
     </div>
     """
+  end
+
+  defp is_active(col) do
+    if Atom.to_string(col[:options][:sort_by]) == String.downcase(col[:label]) do
+      "text-fuchsia-500"
+    else
+      "text-gray-500"
+    end
+  end
+
+  defp create_sort_link(link, options, label) do
+    sort_order = (options[:sort_order] == :desc && :asc) || :desc
+
+    params =
+      options
+      |> Map.put(:sort_by, String.downcase(label))
+      |> Map.put(:sort_order, sort_order)
+      |> Map.to_list()
+      |> Enum.reduce("", fn {k, v}, acc ->
+        acc <> "#{Atom.to_string(k)}=#{v}&"
+      end)
+
+    "#{link}?#{params}"
   end
 
   @doc """
