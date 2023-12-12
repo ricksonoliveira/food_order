@@ -72,6 +72,24 @@ defmodule FoodOrderWeb.Admin.ProductLive.SearchByProductTest do
       assert has_element?(lv, product_2_id_el)
     end
 
+    test "suggest product name", %{conn: conn} do
+      {product_1, _product_2} = create_products()
+
+      # Visit the admin products page
+      {:ok, lv, _html} = live(conn, ~p"/admin/products")
+
+      # Assert that the datalist is present
+      assert lv |> element("#names") |> render =~ "<datalist id=\"names\">"
+
+      # Filter by name of the product_1
+      lv
+      |> form("[phx-submit=filter_by_product]", %{name: product_1.name})
+      |> render_change()
+
+      # Assert that the product_1 name is present in the datalist
+      assert lv |> element("#names") |> render =~ product_1.name
+    end
+
     defp search_form(lv, name) do
       lv
       |> form("[phx-submit=filter_by_product]", %{name: name})
