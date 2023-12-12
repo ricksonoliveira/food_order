@@ -1,4 +1,5 @@
 defmodule FoodOrderWeb.Admin.ProductLive.Index do
+  alias __MODULE__.Paginate
   alias FoodOrder.{Products, Products.Product}
   alias FoodOrderWeb.Admin.ProductLive.Form
   use FoodOrderWeb, :live_view
@@ -8,9 +9,19 @@ defmodule FoodOrderWeb.Admin.ProductLive.Index do
     name = params["name"] || ""
     sort_by = (params["sort_by"] || "updated_at") |> String.to_atom()
     sort_order = (params["sort_order"] || "desc") |> String.to_atom()
+
+    page = String.to_integer(params["page"] || "1")
+    per_page = String.to_integer(params["per_page"] || "4")
+    paginate = %{page: page, per_page: per_page}
+
     sort = %{sort_by: sort_by, sort_order: sort_order}
-    products = Products.list_products(name: name, sort: sort)
-    options = Map.merge(sort, %{name: name})
+    products = Products.list_products(paginate: paginate, name: name, sort: sort)
+
+    options =
+      sort
+      |> Map.merge(%{name: name})
+      |> Map.merge(paginate)
+
     assigns = [options: options, products: products, loading: false, names: []]
 
     socket =
