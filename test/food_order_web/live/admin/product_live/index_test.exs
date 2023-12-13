@@ -123,9 +123,18 @@ defmodule FoodOrderWeb.Admin.PageLive.IndexTest do
       {:ok, view, _html} = live(conn, ~p"/admin/products")
 
       view |> element("th>a", "Name") |> render_click()
-      assert_patched(view, ~p"/admin/products?name=&sort_by=name&sort_order=asc&")
+
+      assert_patched(
+        view,
+        ~p"/admin/products?name=&sort_by=name&page=1&sort_order=asc&per_page=4&"
+      )
+
       view |> element("th>a", "Name") |> render_click()
-      assert_patched(view, ~p"/admin/products?name=&sort_by=name&sort_order=desc&")
+
+      assert_patched(
+        view,
+        ~p"/admin/products?name=&sort_by=name&page=1&sort_order=desc&per_page=4&"
+      )
     end
   end
 

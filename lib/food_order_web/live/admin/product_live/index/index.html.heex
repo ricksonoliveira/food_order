@@ -3,6 +3,7 @@
   <:actions>
     <div class="flex items-center justify-between">
       <.live_component module={Paginate} id="pagination"  options={@options} />
+      <.live_component module={SelectPerPage} id="select-per-page"  options={@options} />
       <.search_by_product name={@options.name} names={@names} />
       <.link patch={~p"/admin/products/new"} class="text-[0.8125rem] text-zinc-900 font-semibold hover:text-zinc-700">New Product</.link>
     </div>

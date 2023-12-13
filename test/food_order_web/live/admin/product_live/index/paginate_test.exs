@@ -7,6 +7,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.PaginateTest do
     setup [:register_and_log_in_admin]
 
     test "click next, previews and page", %{conn: conn} do
+      product_fixture()
       # Visit the admin products page
       {:ok, lv, _html} = live(conn, ~p"/admin/products")
 
@@ -20,7 +21,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.PaginateTest do
 
       assert_patched(
         lv,
-        ~p"/admin/products?name=&sort_by=updated_at&page=2&per_page=4&sort_order=desc"
+        ~p"/admin/products?name=&sort_by=updated_at&page=2&sort_order=desc&per_page=4"
       )
 
       lv
@@ -29,7 +30,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.PaginateTest do
 
       assert_patched(
         lv,
-        ~p"/admin/products?name=&sort_by=updated_at&page=1&per_page=4&sort_order=desc"
+        ~p"/admin/products?name=&sort_by=updated_at&page=1&sort_order=desc&per_page=4"
       )
 
       lv
@@ -38,7 +39,7 @@ defmodule FoodOrderWeb.Admin.ProductLive.PaginateTest do
 
       assert_patched(
         lv,
-        ~p"/admin/products?name=&sort_by=updated_at&page=2&per_page=4&sort_order=desc"
+        ~p"/admin/products?name=&sort_by=updated_at&page=2&sort_order=desc&per_page=4"
       )
     end
 
