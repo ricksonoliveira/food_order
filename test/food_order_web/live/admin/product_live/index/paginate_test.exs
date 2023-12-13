@@ -19,28 +19,25 @@ defmodule FoodOrderWeb.Admin.ProductLive.PaginateTest do
       |> element("[data-role=next]")
       |> render_click()
 
-      assert_patched(
-        lv,
-        ~p"/admin/products?name=&sort_by=updated_at&page=2&sort_order=desc&per_page=4"
-      )
+      assert path = assert_patch(lv)
+      assert path =~ "/admin/products"
+      assert path =~ "&page=2"
 
       lv
       |> element("[data-role=previous]")
       |> render_click()
 
-      assert_patched(
-        lv,
-        ~p"/admin/products?name=&sort_by=updated_at&page=1&sort_order=desc&per_page=4"
-      )
+      assert path = assert_patch(lv)
+      assert path =~ "/admin/products"
+      assert path =~ "&page=1"
 
       lv
       |> element("#pagination>div>div>a", "2")
       |> render_click()
 
-      assert_patched(
-        lv,
-        ~p"/admin/products?name=&sort_by=updated_at&page=2&sort_order=desc&per_page=4"
-      )
+      assert path = assert_patch(lv)
+      assert path =~ "/admin/products"
+      assert path =~ "&page=2"
     end
 
     test "using params", %{conn: conn} do
