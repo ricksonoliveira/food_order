@@ -5,7 +5,6 @@ const LoadMoreProducts = {
 		this.observer = new IntersectionObserver((entries) => {
 			const entry = entries[0]
 			if (entry.isIntersecting) {
-				console.log("load more")
 				this.pushEventTo(selector, "load_more_products", {})
 			}
 		})

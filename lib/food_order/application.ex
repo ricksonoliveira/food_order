@@ -2,6 +2,7 @@ defmodule FoodOrder.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
+  alias FoodOrder.Carts.Server.CartSession
 
   use Application
 
@@ -17,7 +18,8 @@ defmodule FoodOrder.Application do
       # Start Finch
       {Finch, name: FoodOrder.Finch},
       # Start the Endpoint (http/https)
-      FoodOrderWeb.Endpoint
+      FoodOrderWeb.Endpoint,
+      CartSession
       # Start a worker by calling: FoodOrder.Worker.start_link(arg)
       # {FoodOrder.Worker, arg}
     ]
