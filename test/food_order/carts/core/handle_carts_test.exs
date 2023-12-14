@@ -92,7 +92,7 @@ defmodule FoodOrder.Carts.Core.HandleCartsTest do
         @cart_init
         |> add(product)
         |> add(product)
-        |> decrease(product.id)
+        |> decrement(product.id)
 
       assert 1 == cart.total_qty
 
@@ -107,8 +107,8 @@ defmodule FoodOrder.Carts.Core.HandleCartsTest do
         @cart_init
         |> add(product)
         |> add(product)
-        |> decrease(product.id)
-        |> decrease(product.id)
+        |> decrement(product.id)
+        |> decrement(product.id)
 
       assert 0 == cart.total_qty
       assert [] == cart.items

@@ -108,7 +108,7 @@ defmodule FoodOrder.Carts.Core.HandleCarts do
         if item_detail.item.id == item_id do
           updated_item = %{item_detail | qty: item_detail.qty + 1}
           item_updated = [updated_item]
-          {[list | item_updated], updated_item}
+          {list ++ item_updated, updated_item}
         else
           {[item_detail | list], item}
         end
@@ -131,7 +131,7 @@ defmodule FoodOrder.Carts.Core.HandleCarts do
         total_qty: 1
       }
   """
-  def decrease(%{items: items} = cart, item_id) do
+  def decrement(%{items: items} = cart, item_id) do
     {items_updated, product} =
       Enum.reduce(items, {[], nil}, fn item_detail, acc ->
         {list, item} = acc
