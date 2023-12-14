@@ -1,6 +1,8 @@
 defmodule FoodOrderWeb.Router do
   use FoodOrderWeb, :router
 
+  alias FoodOrderWeb.Middlewares.CartSession
+
   import FoodOrderWeb.UserAuth
 
   pipeline :browser do
@@ -20,8 +22,10 @@ defmodule FoodOrderWeb.Router do
   scope "/", FoodOrderWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
-    live "/cart", CartLive, :index
+    live_session :create_cart_session, on_mount: CartSession do
+      live "/", PageLive, :index
+      live "/cart", CartLive, :index
+    end
   end
 
   # Other scopes may use custom stacks.

@@ -5,7 +5,7 @@
   </div>
 
   <div>
-    <.live_component :for={item <- @cart.items} module={Item} id={item.item.id} item={item} />
+    <.live_component :for={item <- @cart.items |> Enum.sort()} module={Item} id={item.item.id} item={item} cart_id={@cart.id} />
 
     <hr />
 
